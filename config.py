@@ -1,9 +1,9 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-USER_NAME = 'root'
-PASSWORD = 'apk.1271'
-URI = 'localhost:33061'
+USER_NAME = ''
+PASSWORD = ''
+URI = ''
 DATABASE = 'app_basketball_db'
 URL = ''.join(['mysql://', USER_NAME, ':', PASSWORD, '@', URI, '/', DATABASE])
 
