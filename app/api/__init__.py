@@ -10,15 +10,15 @@ from app import config
 # from app.models.base import influx_db
 from log import logger
 
-bp = Blueprint('api', __name__, url_prefix='/hutaf/api/v1')
-api = Api(bp, version='1.0', title='TICC Service API', description='TICC接口服务')
+bp = Blueprint('api', __name__, url_prefix='/api/v1')
+api = Api(bp, version='1.0', title='go basketball Service API', description='项目服务后端（临时开放)')
 
 
 def init_module(app):
     app.register_blueprint(bp)
     for module_name in find_packages(os.path.dirname(os.path.abspath(__file__))):
         module = import_module('.%s' % module_name, package=__name__)
-    if hasattr(module, 'initmodule'):
+    if hasattr(module, 'init_module'):
         module.init_module(api)
         logger.info("initialize api module")
 

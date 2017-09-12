@@ -71,7 +71,7 @@ class ElasticHandler(logging.Handler):
 if not os.path.exists('logs'):
     os.mkdir('logs')
 formatter = logging.Formatter('[%(asctime)s]<pid=%(process)d tid=%(thread)d>%(levelname)s - %(message)s')
-file_handler = logging.handlers.RotatingFileHandler("logs/cte.log", maxBytes=20 * 1024 * 1024, backupCount=25)
+file_handler = logging.handlers.RotatingFileHandler("logs/go_basketball.log", maxBytes=20 * 1024 * 1024, backupCount=25)
 file_handler.setFormatter(formatter)
 file_handler.setLevel(logging.DEBUG)
 
@@ -83,7 +83,7 @@ console_handler.setLevel(logging.DEBUG)
 # elk_handler.setFormatter(formatter)
 # elk_handler.setLevel(logging.DEBUG)
 
-error_handler = logging.handlers.RotatingFileHandler("logs/cte_error.log", maxBytes=20 * 1024*1024,backupCount=25)
+error_handler = logging.handlers.RotatingFileHandler("logs/go_basketball_error.log", maxBytes=20 * 1024*1024,backupCount=25)
 error_handler.setFormatter(formatter)
 error_handler.setLevel(logging.ERROR)
 
