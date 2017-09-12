@@ -2,8 +2,8 @@
 from . import auth
 from flask import request
 from auth_tool import validate_email, query_user_info
-from app.models import User
-from ..__init__ import db
+# from app.models import User
+# from ..__init__ import db
 
 
 @auth.route('/login', methods=['Post'])

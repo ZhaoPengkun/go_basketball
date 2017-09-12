@@ -1,25 +1,31 @@
-# -*- coding: UTF-8 –*-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from config import config
-from main import main as main_blueprint
-from auth import auth as auth_blueprint
-from flask_login import LoginManager
+import pkgutil
+import os
+from importlib import import_module
+from flask import Flask as _Flask
+from flask_cors import CORS
+from config import load_config
 
-db = SQLAlchemy()
-
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
+config = load_config()
 
 
-def create_app(config_name):
-    app = Flask(__name__)
-    app.config.from_object(config[config_name])
+class Flask(_Flask):
+    def __init__(self, name, cfg):
+        super(Flask, self).__init__(name, instance_relative_config=True)
+        self.config.from_object(cfg)
+        CORS(self)
 
-    app.register_blueprint(main_blueprint, url_prefix='/main')
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
-    login_manager.init_app(app)
-    db.init_app(app)
-    # print "create app success"
+
+def _init_module(app):
+    # pylint:disable=unused-variable
+    for importer, modname, ispkg in pkgutil.iter_modules([os.path.dirname(__file__)]):
+        if ispkg:
+            mod = import_module('.%s' % modname, package=__name__)
+            if hasattr(mod, 'init_module'):
+                mod.init_module(app)
+
+
+def create_app():
+    app = Flask(__name__, cfg=config)
+    # pylint: disable=attribute-defined-outside-init
+    _init_module(app)
     return app
