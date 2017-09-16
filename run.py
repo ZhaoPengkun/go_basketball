@@ -12,6 +12,6 @@ fileConfig(os.path.join(os.path.dirname(__file__), 'logging.ini'))
 run_config = config.load_config()
 application = app.create_app()
 if __name__ == '__main__':
-    application.run(host=run_config.SERVER_HOST, port=run_config.SERVER_PORT)
+    application.run(host=run_config.SERVER_HOST, port=run_config.PORT)
     # server = WSGIServer((run_config.SERVER_HOST, run_config.SERVER_PORT), application)
     # server.serve_forever()

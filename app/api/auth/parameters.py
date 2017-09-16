@@ -1,6 +1,13 @@
 from flask_restplus.reqparse import RequestParser, Argument
 
-task_post = RequestParser()
-task_post.add_argument(Argument('params',
-                                required=True, type=str, help='Task	Crater',
-                                location='form'))
+register_parser = RequestParser()
+register_parser.add_argument(Argument('email', required=True, type=str, help='please input email',
+                                      location='form'))
+register_parser.add_argument(Argument('password', required=True, type=str, help='please input password',
+                                      location='form'))
+
+login_parser = register_parser
+# login_parser.add_argument(Argument('email', required=True, type=str, help='please input email',
+#                                    location='form'))
+# login_parser.add_argument(Argument('password', required=True, type=str, help='please input password',
+#                                    location='form'))

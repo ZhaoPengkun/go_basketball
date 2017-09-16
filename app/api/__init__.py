@@ -11,7 +11,7 @@ from app import config
 from log import logger
 
 bp = Blueprint('api', __name__, url_prefix='/api/v1')
-api = Api(bp, version='1.0', title='go basketball Service API', description='项目服务后端（临时开放)')
+api = Api(bp, version='1.0', title='Go Basketball Service API', description='项目服务后端（临时开放)')
 
 
 def init_module(app):
