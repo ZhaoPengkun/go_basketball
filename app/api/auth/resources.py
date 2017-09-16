@@ -1,5 +1,4 @@
 from flask_restplus import Namespace, Resource
-from flask import request, jsonify
 from app.api import api
 from app.models.auth import User
 from app.controllers.auth_controller import validate_email, query_user_info
@@ -54,18 +53,5 @@ class Auth(Resource):
         login_params = parameters.login_parser.parse_args()
         email = login_params.get('email')
         password = login_params.get("password")
-        # return {"success": "test"}
         login_result = query_user_info(email, password)
         return login_result
-
-# @ns.route('/')
-# @api.doc(params={'taskid': 'task id'})
-# class Task(Resource):
-#     @ns.marshal_list_with(schemas.user_info)
-#     def get(self):
-#         task_id = request.args.get("task_id")
-#         if task_id is None:
-#             return None
-#         else:
-#             result = service.get_test_result(task_id)
-#             return result

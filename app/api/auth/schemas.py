@@ -1,5 +1,5 @@
 from flask_restplus import fields, Model
-__all__ = ['register']
+__all__ = ['register', 'login']
 register = Model('register_result', {
     'register_result': fields.String,
 })
