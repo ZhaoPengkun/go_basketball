@@ -31,6 +31,12 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
+class Auth(db.Model):
+    __tablename__ = 'auth'
+    email = db.Column(db.String(64), primary_key=True, index=True)
+    verification_code = db.Column(db.String(8))
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))

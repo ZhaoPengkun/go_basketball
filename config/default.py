@@ -1,54 +1,34 @@
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-USER_NAME = ''
-PASSWORD = ''
-URI = ''
-DATABASE = 'app_basketball_db'
-URL = ''.join(['mysql://', USER_NAME, ':', PASSWORD, '@', URI, '/', DATABASE])
 
+class Config(object):
 
-class Config:
-    def __init__(self):
-        pass
-
+    # base
     APP_NAME = "go_basketball"
-    PORT = 8088
     SERVER_HOST = "0.0.0.0"
     SERVER_PORT = 8088
+    basedir = os.path.abspath(os.path.dirname(__file__))
+
+    # database
+    DB_USER_NAME = 'root'
+    BD_PASSWORD = 'apk.1271'
+    URI = 'localhost:33061'
+    DATABASE = 'app_basketball_db'
+    URL = ''.join(['mysql://', DB_USER_NAME, ':', BD_PASSWORD, '@', URI, '/', DATABASE])
+
+    # sqlalchemy
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'xlz'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    # FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    # FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
-    # FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-
-    @staticmethod
-    def init_app(app):
-        pass
-
-
-class DevelopmentConfig(Config):
-    DEBUG = True
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or URL
 
+    # smtp
+    SMTP_HOST = 'smtp.163.com'
+    SMTP_PORT = '25'
+    SMTP_USERNAME = "go_basketball@163.com"
+    SMTP_PASSWORD = "zwx474823"
+    SSL_PORT = '587'
 
-class TestingConfig(Config):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or URL
-
-
-class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or URL
-
-config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-    'default': DevelopmentConfig
-}
+    FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
+    FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
+    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')

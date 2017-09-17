@@ -1,7 +1,9 @@
+# -*- coding:UTF-8 -*-
 from flask_restplus import Namespace, Resource
+from flask import request
 from app.api import api
 from app.models.auth import User
-from app.controllers.auth_controller import validate_email, query_user_info
+from app.controllers.auth_controller import validate_email, query_user_info, generate_verification_code
 from app.models.base import db
 from log import logger
 import schemas
@@ -23,10 +25,11 @@ class UserInfo(Resource):
         register_params = parameters.register_parser.parse_args()
         email = register_params.get('email')
         password = register_params.get("password")
+        code = register_params.get("code")
         new_user = User()
         new_user.email = email
         new_user.password = password
-        validate_email_result = validate_email(email)
+        validate_email_result = validate_email(email, code)
         logger.info("validate email result:" + validate_email_result)
         try:
             if validate_email_result == "success":
@@ -47,7 +50,7 @@ class Auth(Resource):
     def post(self):
         """
         login in
-        :return: login result
+        :return: {success, fail}
         :parameter: email, password
         """
         login_params = parameters.login_parser.parse_args()
@@ -55,3 +58,18 @@ class Auth(Resource):
         password = login_params.get("password")
         login_result = query_user_info(email, password)
         return login_result
+
+
+@ns.route('/')
+@api.doc(params={"email": "please input email"})
+class AuthEmail(Resource):
+    @ns.marshal_list_with(schemas.verification)
+    def get(self):
+        """
+        get email verification code
+        :return: {"double":"email already exist", "success":"send email verification success"}
+        """
+        email = request.args.get('email')
+        code = generate_verification_code(email)
+        result = {"verification_code": code}
+        return result
