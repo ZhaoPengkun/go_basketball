@@ -1,5 +1,5 @@
-from app.api.auth.resources import ns
-from app.api.auth import schemas
+from app.api.news.resources import ns
+from app.api.news import schemas
 
 
 def init_module(api):

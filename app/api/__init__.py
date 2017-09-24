@@ -6,8 +6,6 @@ from importlib import import_module
 from flask import Blueprint, request
 from flask_restplus import Api
 from setuptools import find_packages
-from app import config
-# from app.models.base import influx_db
 from log import logger
 
 bp = Blueprint('api', __name__, url_prefix='/api/v1')
@@ -18,9 +16,9 @@ def init_module(app):
     app.register_blueprint(bp)
     for module_name in find_packages(os.path.dirname(os.path.abspath(__file__))):
         module = import_module('.%s' % module_name, package=__name__)
-    if hasattr(module, 'init_module'):
-        module.init_module(api)
-        logger.info("initialize api module")
+        if hasattr(module, 'init_module'):
+            module.init_module(api)
+            logger.info("initialize api module")
 
 
 @api.errorhandler
