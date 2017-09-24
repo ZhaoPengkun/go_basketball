@@ -1,3 +1,11 @@
+import platform
+from config.development import DevelopmentConfig
+from config.production import ProductionConfig
+
+
 def load_config():
-    from config.default import Config
-    return Config
+    system = platform.system()
+    if system == "Windows":
+        return DevelopmentConfig
+    elif system == "Linux":
+        return ProductionConfig
