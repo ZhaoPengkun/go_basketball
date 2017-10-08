@@ -14,6 +14,9 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(128))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
+    vip = db.Column(db.Integer)
+    step_number = db.Column(db.Integer)
+    portrait = db.Column(db.LargeBinary)
 
     # def __init__(self, email, password):
     #     self.email = email

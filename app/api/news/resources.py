@@ -24,8 +24,7 @@ class New(Resource):
         key = key_world_parameters.get('key')
         logger.info("your spider key is " + key)
         start_spider(key)
-
-    # @api.doc()
+        return {"result", "spider success"}
 
     def delete(self):
         """
