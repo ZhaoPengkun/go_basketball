@@ -16,7 +16,7 @@ def validate_email(email, code):
     auth.email = email
     if not_email(email):
         return "illegal"
-    elif User.query.filter_by(email=email).first():
+    elif db.session.query(User).filter_by(email=email).first():
         return "double"
     else:
         auth = db.session.query(Auth).filter_by(email=email).first()

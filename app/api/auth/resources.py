@@ -1,6 +1,6 @@
 # -*- coding:UTF-8 -*-
 from flask_restplus import Namespace, Resource
-from flask import request
+from flask import request, session
 from app.api import api
 from app.models.auth import User
 from app.controllers.auth_controller import validate_email, query_user_info, generate_verification_code
@@ -10,6 +10,25 @@ import schemas
 import parameters
 
 ns = Namespace('auth')
+
+
+@ns.route('/login')
+class Auth(Resource):
+    @api.doc(parser=parameters.login_parser)
+    @ns.marshal_list_with(schemas.login)
+    def post(self):
+        """
+        login in
+        :return: {success, fail}
+        :parameter: email, password
+        """
+        login_params = parameters.login_parser.parse_args()
+        email = login_params.get('email')
+        password = login_params.get("password")
+        login_result = query_user_info(email, password)
+        if login_result.get("login_result") == "success":
+            session["email"] = email
+        return login_result
 
 
 @ns.route('/user_info')
@@ -41,23 +60,6 @@ class UserInfo(Resource):
             logger.error("register fail error:", e)
             result = {"register_result": "fail"}
         return result
-
-
-@ns.route('/login')
-@api.doc(parser=parameters.login_parser)
-class Auth(Resource):
-    @ns.marshal_list_with(schemas.login)
-    def post(self):
-        """
-        login in
-        :return: {success, fail}
-        :parameter: email, password
-        """
-        login_params = parameters.login_parser.parse_args()
-        email = login_params.get('email')
-        password = login_params.get("password")
-        login_result = query_user_info(email, password)
-        return login_result
 
 
 @ns.route('/')

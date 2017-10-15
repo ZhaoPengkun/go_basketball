@@ -42,14 +42,16 @@ def get_info(url, headers, key_value):
 
 
 def start_spider(key_value):
-    url = 'http://weixin.sogou.com/weixin?type=2&query='+key_value+'&ie=utf8'
+    url = 'http://weixin.sogou.com/weixin?type=2&s_from=input&query='+key_value+'&ie=utf8&_sug_=n&_sug_type_='
     headers = {'Host': 'weixin.sogou.com',
                'Pragma': 'no-cache',
                'Upgrade-Insecure-Requests': '1',
-               'Cookie': 'ABTEST=0|1505736750|v1; IPLOC=CN5101; SUID=CA6B457D2423910A0000000059BFB82E; SUID=CA6B457D4F18910A0000000059BFB82E; weixinIndexVisited=1; SUV=006317867D456BCA59BFB83040B89926; SNUID=E4DD36E18F8AD73C02C01B5B8F5E5DEF; sct=24; JSESSIONID=aaaEj-KY0sAvL_oKE2y6v',
-               'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Mobile Safari/537.36'}
+               'Cookie': 'ABTEST=0|1505736750|v1; IPLOC=CN5101; SUID=CA6B457D2423910A0000000059BFB82E; SUID=CA6B457D4F18910A0000000059BFB82E; weixinIndexVisited=1; SUV=006317867D456BCA59BFB83040B89926; sct=24; SNUID=2D6C8157393D62248E872B9A39AFBA98; JSESSIONID=aaatov-eODNSfe4OKpz6v',
+               'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Mobile Safari/537.36',
+               'Referer':'http://weixin.sogou.com/weixin?type=2&query=%E7%AF%AE%E7%90%83&ie=utf8&s_from=input&_sug_=n&_sug_type_='}
     for i in range(1, 11):
-        tmp_url = "http://weixin.sogou.com/weixin?query=%E7%AF%AE%E7%90%83&_sug_type_=&sut=5519&lkt=1%2C1506244505656%2C1506244505656&s_from=input&_sug_=y&type=2&sst0=1506244505757&page="+str(i)+"&ie=utf8&w=01019900&dr=1"
+        # tmp_url = "http://weixin.sogou.com/weixin?query=%E7%AF%AE%E7%90%83&_sug_type_=&sut=5519&lkt=1%2C1506244505656%2C1506244505656&s_from=input&_sug_=y&type=2&sst0=1506244505757&page="+str(i)+"&ie=utf8&w=01019900&dr=1"
+        tmp_url = "http://weixin.sogou.com/weixin?query=%E7%AF%AE%E7%90%83&_sug_type_=&s_from=input&_sug_=n&type=2&page="+str(i)+"&ie=utf8"
         # tmp_url = url + "&page="+str(i)
         print tmp_url
         get_info(tmp_url, headers, key_value)

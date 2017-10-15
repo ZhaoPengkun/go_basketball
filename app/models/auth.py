@@ -12,11 +12,15 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     phone = db.Column(db.String(11))
     address = db.Column(db.String(128))
-    height = db.Column(db.Integer)
-    weight = db.Column(db.Integer)
+    height = db.Column(db.Float)
+    weight = db.Column(db.Float)
     vip = db.Column(db.Integer)
     step_number = db.Column(db.Integer)
     portrait = db.Column(db.LargeBinary)
+    bust = db.Column(db.Float)
+    Waist = db.Column(db.Float)
+    hip = db.Column(db.Float)
+    BMI = db.Column(db.Float)
 
     # def __init__(self, email, password):
     #     self.email = email
