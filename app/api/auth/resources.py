@@ -3,7 +3,7 @@ from flask_restplus import Namespace, Resource
 from flask import request, session
 from app.api import api
 from app.models.auth import User
-from app.controllers.auth_controller import validate_email, query_user_info, generate_verification_code
+from app.controllers.auth_controller import validate_email, modify_user_info, query_user_info, generate_verification_code
 from app.models.base import db
 from log import logger
 import schemas
@@ -32,8 +32,8 @@ class Auth(Resource):
 
 
 @ns.route('/user_info')
-@api.doc(parser=parameters.register_parser)
 class UserInfo(Resource):
+    @api.doc(parser=parameters.register_parser)
     @ns.marshal_list_with(schemas.register)
     def post(self):
         """
@@ -59,6 +59,17 @@ class UserInfo(Resource):
         except Exception, e:
             logger.error("register fail error:", e)
             result = {"register_result": "fail"}
+        return result
+
+    @api.doc(parser=parameters.modify_parser)
+    @ns.marshal_list_with(schemas.modify)
+    def put(self):
+        """
+        modify user's info
+        :return: {success, fail}
+        """
+        modify_params = parameters.modify_parser.parse_args()
+        result = modify_user_info(modify_params)
         return result
 
 

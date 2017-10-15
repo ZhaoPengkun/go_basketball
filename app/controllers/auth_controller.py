@@ -1,5 +1,6 @@
 import re
 import random
+from flask import session
 from app.models.auth import User, Auth
 from app.models.base import db
 from app.tools.email_util import send_verification_code_email
@@ -43,7 +44,7 @@ def query_user_info(email, password):
     :param password: login password
     :return: {success, fail}
     """
-    login_user = User.query.filter_by(email=email).first()
+    login_user = db.session.query(User).filter_by(email=email).first()
     if login_user:
         if login_user.verify_password(password):
             print "verify"
@@ -72,3 +73,19 @@ def generate_verification_code(email):
     db.session.commit()
     send_verification_code_email(email, code)
     return "success"
+
+
+def modify_user_info(args):
+    email = args.get("email")
+
+    user = db.session.query(User).filter_by(email=email).first()
+
+    if user and ("email" in session) and session["email"] == user.email:
+        for key in args:
+            value = args[key]
+            if value and key != "portrait":
+                user.__setattr__(key, value)
+        db.session.commit()
+        return {"result": "success", "message": "modify user info success"}
+    else:
+        return {"result": "error", "message": "please login"}
