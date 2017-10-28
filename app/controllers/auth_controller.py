@@ -1,5 +1,6 @@
 import re
 import random
+from flask import session
 from app.models.auth import User, Auth
 from app.models.base import db
 from app.tools.email_util import send_verification_code_email
@@ -16,7 +17,7 @@ def validate_email(email, code):
     auth.email = email
     if not_email(email):
         return "illegal"
-    elif User.query.filter_by(email=email).first():
+    elif db.session.query(User).filter_by(email=email).first():
         return "double"
     else:
         auth = db.session.query(Auth).filter_by(email=email).first()
@@ -43,10 +44,9 @@ def query_user_info(email, password):
     :param password: login password
     :return: {success, fail}
     """
-    login_user = User.query.filter_by(email=email).first()
+    login_user = db.session.query(User).filter_by(email=email).first()
     if login_user:
         if login_user.verify_password(password):
-            print "verify"
             return {"login_result": "success"}
     return {"login_result": "fail"}
 
@@ -72,3 +72,24 @@ def generate_verification_code(email):
     db.session.commit()
     send_verification_code_email(email, code)
     return "success"
+
+
+def modify_user_info(args):
+    email = args.get("email")
+
+    user = db.session.query(User).filter_by(email=email).first()
+    float_items = ["height", "weight", "bust", "Waist", "BMI"]
+    int_items = ["vip", "step_number"]
+    if user and ("email" in session) and session["email"] == user.email:
+        for key in args:
+            value = args[key]
+            if value and key != "portrait":
+                if key in float_items:
+                    value = float(value)
+                elif key in int_items:
+                    value = int(value)
+                user.__setattr__(key, value)
+        db.session.commit()
+        return {"result": "success", "message": "modify user info success"}
+    else:
+        return {"result": "error", "message": "please login"}
