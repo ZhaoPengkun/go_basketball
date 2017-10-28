@@ -3,11 +3,13 @@ from flask_restplus import Namespace, Resource
 from flask import request, session
 from app.api import api
 from app.models.auth import User
-from app.controllers.auth_controller import validate_email, modify_user_info, query_user_info, generate_verification_code
+from app.controllers.auth_controller import validate_email, modify_user_info, query_user_info, \
+    generate_verification_code
 from app.models.base import db
 from log import logger
 import schemas
 import parameters
+import json
 
 ns = Namespace('auth')
 
@@ -71,6 +73,25 @@ class UserInfo(Resource):
         modify_params = parameters.modify_parser.parse_args()
         result = modify_user_info(modify_params)
         return result
+
+    @api.doc(params={"email": "please input email",
+                     "key": 'json array(one or more items) :["phone","address","height", "weight", "vip",'
+                            ' "step_number", "portrait", "bust", "Waist", "hip", "BMI"]'})
+    def get(self):
+        """
+        modify user's info
+        :return: {success, fail}
+        """
+        email = request.args.get('email')
+        key = request.args.get('key')
+        key = json.loads(key)
+        user = db.session.query(User).filter_by(email=email).first()
+        user_info = {}
+        if user and ("email" in session) and session["email"] == user.email:
+            for k in key:
+                user_info[k] = user.__getattribute__(k)
+            return {"user_info": user_info}
+        return {"error": "get user info error"}
 
 
 @ns.route('/')

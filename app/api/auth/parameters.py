@@ -26,19 +26,19 @@ modify_parser.add_argument(Argument('phone', required=False, type=str, help='ple
                                     location='form'))
 modify_parser.add_argument(Argument('address', required=False, type=str, help='please input address',
                                     location='form'))
-modify_parser.add_argument(Argument('height', required=False, type=float, help='please input height',
+modify_parser.add_argument(Argument('height', required=False, type=str, help='please input height',
                                     location='form'))
-modify_parser.add_argument(Argument('weight', required=False, type=float, help='please input weight',
+modify_parser.add_argument(Argument('weight', required=False, type=str, help='please input weight',
                                     location='form'))
-modify_parser.add_argument(Argument('vip', required=False, type=int, help='please input vip days',
+modify_parser.add_argument(Argument('vip', required=False, type=str, help='please input vip days',
                                     location='form'))
-modify_parser.add_argument(Argument('step_number', required=False, type=int, help='please input step number',
+modify_parser.add_argument(Argument('step_number', required=False, type=str, help='please input step number',
                                     location='form'))
 modify_parser.add_argument(Argument('portrait', required=False, type=file, help='please input portrait',
                                     location='file'))
-modify_parser.add_argument(Argument('bust', required=False, type=float, help='please input bust',
+modify_parser.add_argument(Argument('bust', required=False, type=str, help='please input bust',
                                     location='form'))
-modify_parser.add_argument(Argument('Waist', required=False, type=float, help='please input Waist',
+modify_parser.add_argument(Argument('Waist', required=False, type=str, help='please input Waist',
                                     location='form'))
-modify_parser.add_argument(Argument('BMI', required=False, type=float, help='please input BMI',
+modify_parser.add_argument(Argument('BMI', required=False, type=str, help='please input BMI',
                                     location='form'))

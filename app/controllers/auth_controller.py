@@ -47,7 +47,6 @@ def query_user_info(email, password):
     login_user = db.session.query(User).filter_by(email=email).first()
     if login_user:
         if login_user.verify_password(password):
-            print "verify"
             return {"login_result": "success"}
     return {"login_result": "fail"}
 
@@ -79,11 +78,16 @@ def modify_user_info(args):
     email = args.get("email")
 
     user = db.session.query(User).filter_by(email=email).first()
-
+    float_items = ["height", "weight", "bust", "Waist", "BMI"]
+    int_items = ["vip", "step_number"]
     if user and ("email" in session) and session["email"] == user.email:
         for key in args:
             value = args[key]
             if value and key != "portrait":
+                if key in float_items:
+                    value = float(value)
+                elif key in int_items:
+                    value = int(value)
                 user.__setattr__(key, value)
         db.session.commit()
         return {"result": "success", "message": "modify user info success"}
