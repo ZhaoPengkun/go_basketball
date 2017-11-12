@@ -1,0 +1,24 @@
+/*********************
+THEME COLOR - DEFAULT
+*********************/
+
+@import '../settings';
+@import '../mixins';
+@import '../plugins/bootstrap/mixins';
+@import '../colors';
+
+// Base color
+$theme-name: 					blue1;
+$base-color: 					map-get($theme-colors, $theme-name);
+
+// Link Settings
+$link-font-color-on-hover:   	$base-color;
+$link-font-color-on-active:   	$base-color;
+   
+// Text Settings
+$text-font-color:   			$base-color;
+
+@import 'base-components';
+@import 'base-plugins';
+    
+           

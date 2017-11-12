@@ -1,4 +1,5 @@
 from flask_restplus.reqparse import RequestParser, Argument
+from werkzeug.datastructures import FileStorage
 
 register_parser = RequestParser()
 register_parser.add_argument(Argument('email', required=True, type=str, help='please input email',
@@ -34,8 +35,8 @@ modify_parser.add_argument(Argument('vip', required=False, type=str, help='pleas
                                     location='form'))
 modify_parser.add_argument(Argument('step_number', required=False, type=str, help='please input step number',
                                     location='form'))
-modify_parser.add_argument(Argument('portrait', required=False, type=file, help='please input portrait',
-                                    location='file'))
+modify_parser.add_argument(Argument('portrait', required=False, type=FileStorage, help='please input portrait',
+                                    location='files'))
 modify_parser.add_argument(Argument('bust', required=False, type=str, help='please input bust',
                                     location='form'))
 modify_parser.add_argument(Argument('Waist', required=False, type=str, help='please input Waist',

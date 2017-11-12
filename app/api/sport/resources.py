@@ -77,7 +77,6 @@ class GameInfo(Resource):
 class ImageTop(Resource):
     def get(self):
         i = int(request.args.get('i'))
-        print str(i)
         if i > 3:
             result = {"error": "not support i > 3"}
             return result

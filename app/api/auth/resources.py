@@ -1,6 +1,6 @@
 # -*- coding:UTF-8 -*-
 from flask_restplus import Namespace, Resource
-from flask import request, session
+from flask import request, session, Response
 from app.api import api
 from app.models.auth import User
 from app.controllers.auth_controller import validate_email, modify_user_info, query_user_info, \
@@ -71,15 +71,20 @@ class UserInfo(Resource):
         :return: {success, fail}
         """
         modify_params = parameters.modify_parser.parse_args()
-        result = modify_user_info(modify_params)
+        p_file = request.files
+        if p_file:
+            portrait = p_file["portrait"]
+        else:
+            portrait = None
+        result = modify_user_info(modify_params, portrait=portrait)
         return result
 
     @api.doc(params={"email": "please input email",
                      "key": 'json array(one or more items) :["phone","address","height", "weight", "vip",'
-                            ' "step_number", "portrait", "bust", "Waist", "hip", "BMI"]'})
+                            ' "step_number", "bust", "Waist", "hip", "BMI"] or only ["portrait"]'})
     def get(self):
         """
-        modify user's info
+        get user's info
         :return: {success, fail}
         """
         email = request.args.get('email')
@@ -88,9 +93,13 @@ class UserInfo(Resource):
         user = db.session.query(User).filter_by(email=email).first()
         user_info = {}
         if user and ("email" in session) and session["email"] == user.email:
-            for k in key:
-                user_info[k] = user.__getattribute__(k)
-            return {"user_info": user_info}
+            if "portrait" in key:
+                respon = Response(user.portrait, mimetype="image/jpeg")
+                return respon
+            else:
+                for k in key:
+                    user_info[k] = user.__getattribute__(k)
+                return {"user_info": user_info}
         return {"error": "get user info error"}
 
 

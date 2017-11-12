@@ -1,5 +1,8 @@
 import re
 import random
+import time
+import os
+import shutil
 from flask import session
 from app.models.auth import User, Auth
 from app.models.base import db
@@ -74,13 +77,24 @@ def generate_verification_code(email):
     return "success"
 
 
-def modify_user_info(args):
-    email = args.get("email")
+def modify_user_info(args, portrait=None):
 
+    email = args.get("email")
     user = db.session.query(User).filter_by(email=email).first()
     float_items = ["height", "weight", "bust", "Waist", "BMI"]
     int_items = ["vip", "step_number"]
     if user and ("email" in session) and session["email"] == user.email:
+        if portrait:
+            time_stamp = str(time.time())
+            os.mkdir(time_stamp)
+            tmp_file_path = os.path.join(time_stamp, portrait.filename)
+            portrait.save(tmp_file_path)
+
+            img = open(tmp_file_path, "rb")
+            img = img.read()
+
+            user.__setattr__("portrait", img)
+            shutil.rmtree(time_stamp)
         for key in args:
             value = args[key]
             if value and key != "portrait":
@@ -89,6 +103,7 @@ def modify_user_info(args):
                 elif key in int_items:
                     value = int(value)
                 user.__setattr__(key, value)
+
         db.session.commit()
         return {"result": "success", "message": "modify user info success"}
     else:
