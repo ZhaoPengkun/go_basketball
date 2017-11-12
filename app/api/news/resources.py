@@ -57,10 +57,10 @@ class GetVideo(Resource):
     def get(self):
         page = int(request.args.get('page'))
         nums = int(request.args.get('nums'))
-        videos = db.session.query(Video).filter().order_by(News.id.desc()).offset(page * nums).limit(nums).all()
+        videos = db.session.query(Video).filter().order_by(Video.id.desc()).offset(page * nums).limit(nums).all()
         result = []
         for video in videos:
-            result.append({"url": video.url, "name": video.name, "description": video.description, "date": video.date})
+            result.append({"url": video.url, "name": video.name, "image_src": video.image_src})
         return result
 
 

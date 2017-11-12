@@ -9,6 +9,5 @@ mews = Model('news', {
 video = Model('video', {
     'name': fields.String,
     'url': fields.String,
-    'description': fields.String,
-    'date': fields.String
+    'image_src': fields.String
 })

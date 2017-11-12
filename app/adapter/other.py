@@ -16,3 +16,9 @@ def download():
     return render_template("download.html")
 
 
+@others.route('/scu')
+def scu():
+    # return send_from_directory("app/templates/theme", "index.html")
+    return render_template("index2.html")
+
+
