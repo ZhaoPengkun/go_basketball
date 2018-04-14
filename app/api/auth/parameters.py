@@ -43,3 +43,7 @@ modify_parser.add_argument(Argument('Waist', required=False, type=str, help='ple
                                     location='form'))
 modify_parser.add_argument(Argument('BMI', required=False, type=str, help='please input BMI',
                                     location='form'))
+
+login_out_parser = RequestParser()
+login_out_parser.add_argument(Argument('email', required=True, type=str, help='please input email',
+                                       location='form'))

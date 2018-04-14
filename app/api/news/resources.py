@@ -16,7 +16,7 @@ import parameters
 ns = Namespace('news')
 
 
-@ns.route('/')
+@ns.route('')
 class New(Resource):
     @api.doc(parser=parameters.key_world_parser)
     def post(self):

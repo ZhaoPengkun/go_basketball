@@ -83,7 +83,7 @@ def modify_user_info(args, portrait=None):
     user = db.session.query(User).filter_by(email=email).first()
     float_items = ["height", "weight", "bust", "Waist", "BMI"]
     int_items = ["vip", "step_number"]
-    if user and ("email" in session) and session["email"] == user.email:
+    if user and "email" in session and session["email"] == user.email:
         if portrait:
             time_stamp = str(time.time())
             os.mkdir(time_stamp)

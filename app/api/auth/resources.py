@@ -116,3 +116,22 @@ class AuthEmail(Resource):
         code = generate_verification_code(email)
         result = {"verification_code": code}
         return result
+
+
+@ns.route('/login_out')
+class LoginOut(Resource):
+    @api.doc(parser=parameters.login_out_parser)
+    @ns.marshal_list_with(schemas.login_out)
+    def post(self):
+        """
+        login out
+        :return: {success, fail}
+        :parameter: email, password
+        """
+        login_out_params = parameters.login_out_parser.parse_args()
+        email = login_out_params.get('email')
+        if "email" in session and email in session["email"]:
+            session.clear()
+            return {"login_out_result": True}
+        else:
+            return {"login_out_result": False}
